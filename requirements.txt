@@ -1,0 +1,14 @@
+openai-whisper
+gTTS
+pygame-ce
+customtkinter
+pillow
+packaging
+pyttsx3
+pypdf
+ollama
+sounddevice
+numpy
+scipy
+python-dotenv
+colorama
