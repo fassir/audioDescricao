@@ -1,74 +1,323 @@
-# Conversa Bot - Assistente de Voz com IA, Acessibilidade e Leitura de Documentos
+<div align="center">
 
-Este é um projeto de assistente virtual inteligente capaz de conversar por voz, entender texto e ler documentos (como livros em PDF). Ele foi construído para ser moderno, acessível e fácil de usar.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1F9BD4,50:2E75B6,100:16265F&height=200&section=header&text=audioDescricao&fontSize=46&fontColor=ffffff&fontAlignY=38&desc=Assistente%20de%20Voz%20Inteligente%20com%20IA%20%7C%20Acessibilidade%20%7C%20PDF&descAlignY=58&descSize=15&animation=fadeIn" />
 
-O projeto utiliza **OpenAI (ChatGPT)** para inteligência, **Whisper** para ouvir você, e **gTTS** para falar de volta.
+<br/>
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)
+![Whisper](https://img.shields.io/badge/Whisper-Speech_to_Text-412991?style=for-the-badge&logo=openai&logoColor=white)
+![CustomTkinter](https://img.shields.io/badge/CustomTkinter-Interface_Moderna-1F9BD4?style=for-the-badge&logo=python&logoColor=white)
+
+<br/>
+
+[![GitHub forks](https://img.shields.io/github/forks/fassir/audioDescricao?style=flat-square&color=1F9BD4)](https://github.com/fassir/audioDescricao/network)
+[![GitHub stars](https://img.shields.io/github/stars/fassir/audioDescricao?style=flat-square&color=2E75B6)](https://github.com/fassir/audioDescricao/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/fassir/audioDescricao?style=flat-square&color=16265F)](https://github.com/fassir/audioDescricao/issues)
+[![License](https://img.shields.io/badge/license-MIT-1F9BD4?style=flat-square)](LICENSE)
+[![Acessibilidade](https://img.shields.io/badge/Acessibilidade-A11Y-2E75B6?style=flat-square)](https://github.com/fassir/audioDescricao)
+
+</div>
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🎙️ Sobre o Projeto
 
-### Pré-requisitos
-Antes de começar, você precisa ter instalado no seu computador:
-1.  **Python 3**: A linguagem de programação usada.
-2.  **FFmpeg**: Uma ferramenta essencial para trabalhar com áudio (necessária para o Whisper).
-    -   *Windows*: `winget install ffmpeg`
-3.  **Chave da OpenAI**: Um código secreto para usar o "cérebro" do ChatGPT.
+**audioDescricao** é um assistente de voz inteligente que combina o poder da **Inteligência Artificial** com foco em **acessibilidade**. O assistente pode reconhecer sua voz, responder com inteligência via ChatGPT, ler e conversar sobre documentos **PDF**, e ainda descrever a interface graficamente — tudo isso com uma interface visual moderna em modo escuro.
 
-### Instalação Passo a Passo
+O projeto também está disponível como **Conversa_bot**, com a mesma base de funcionalidades.
 
-1.  **Baixe o código** (Clone ou Download).
-2.  **Instale as "peças" necessárias (bibliotecas)**:
-    Abra o terminal na pasta do projeto e digite:
-    ```bash
-    pip install -r requirements.txt
-    ```
-    Isso vai baixar tudo que o robô precisa para funcionar (cérebro, ouvidos, voz, interface, leitor de PDF).
-3.  **Configure sua Chave**:
-    Crie um arquivo chamado `.env` e coloque sua chave lá dentro assim:
-    ```
-    OPENAI_API_KEY=sk-sua-chave-aqui...
-    ```
+> 💡 Criado com foco em inclusão: pyttsx3 garante audiodescrição **instantânea da interface sem necessidade de internet**, enquanto Whisper e gTTS lidam com reconhecimento e síntese de voz via nuvem.
 
-### ▶️ Iniciando a Interface (Recomendado)
-Para abrir a janela visual moderna e em Português:
+<details>
+<summary>📋 Objetivos do Projeto</summary>
+<br/>
+
+- Criar um assistente de voz acessível e inteligente
+- Integrar reconhecimento de voz (Whisper/OpenAI) com GPT-4
+- Permitir conversação natural com documentos PDF
+- Audiodescrever a interface para deficientes visuais sem internet
+- Oferecer síntese de voz de alta qualidade via gTTS
+- Construir interface moderna com CustomTkinter (dark mode)
+- Manter a UI responsiva com Threading assíncrono
+
+</details>
+
+---
+
+## 🧠 Como Funciona
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│                      FLUXO PRINCIPAL                           │
+│                                                                │
+│  🎤 Voz do Usuário                                             │
+│         │                                                      │
+│         ▼                                                      │
+│  ┌─────────────────┐     ┌───────────────────────────────┐    │
+│  │  Whisper (OpenAI│     │  pyttsx3 (Offline)            │    │
+│  │  Speech-to-Text)│     │  Audiodescrição da Interface  │    │
+│  └────────┬────────┘     └───────────────────────────────┘    │
+│           │ texto                                              │
+│           ▼                                                    │
+│  ┌────────────────────────────────┐                           │
+│  │   Contexto da conversa         │                           │
+│  │   + Conteúdo do PDF (se aberto)│                           │
+│  └────────────────┬───────────────┘                           │
+│                   │                                            │
+│                   ▼                                            │
+│  ┌────────────────────────────────┐                           │
+│  │   ChatGPT / OpenAI API         │                           │
+│  │   (Inteligência da resposta)   │                           │
+│  └────────────────┬───────────────┘                           │
+│                   │ resposta                                   │
+│                   ▼                                            │
+│  ┌────────────────────────────────┐                           │
+│  │   gTTS (Google Text-to-Speech) │                           │
+│  │   Síntese de voz em português  │                           │
+│  └────────────────┬───────────────┘                           │
+│                   │ áudio                                      │
+│                   ▼                                            │
+│  🔊 Resposta falada ao usuário                                 │
+└────────────────────────────────────────────────────────────────┘
+```
+
+| Componente | Biblioteca | Função | Internet |
+|---|---|---|---|
+| 🎤 **Entrada de Voz** | Whisper (OpenAI) | Converte fala em texto | ✅ Necessária |
+| 🧠 **Inteligência** | ChatGPT / OpenAI API | Gera respostas inteligentes | ✅ Necessária |
+| 🔊 **Síntese de Voz** | gTTS | Converte texto em fala (alta qualidade) | ✅ Necessária |
+| ♿ **Audiodescrição** | pyttsx3 | Descreve interface em tempo real | ❌ Offline |
+| 📄 **Leitura de PDF** | pypdf | Extrai texto de documentos PDF | ❌ Local |
+| 🖥️ **Interface** | CustomTkinter | UI moderna dark mode | ❌ Local |
+| ⚡ **Threading** | threading | Mantém UI responsiva | ❌ Local |
+| 🎵 **Áudio** | FFmpeg | Processamento e reprodução de áudio | ❌ Local |
+
+---
+
+## 🧰 Stack de Tecnologias
+
+<div align="center">
+
+<a href="https://skillicons.dev">
+  <img src="https://skillicons.dev/icons?i=python,openai,linux&theme=dark" />
+</a>
+
+<br/><br/>
+
+![OpenAI](https://img.shields.io/badge/OpenAI-API-412991?style=flat-square&logo=openai&logoColor=white)
+![Whisper](https://img.shields.io/badge/Whisper-Speech_Recognition-412991?style=flat-square&logo=openai&logoColor=white)
+![gTTS](https://img.shields.io/badge/gTTS-Google_TTS-4285F4?style=flat-square&logo=google&logoColor=white)
+![pyttsx3](https://img.shields.io/badge/pyttsx3-Offline_TTS-3776AB?style=flat-square&logo=python&logoColor=white)
+![CustomTkinter](https://img.shields.io/badge/CustomTkinter-Dark_Mode_UI-1F9BD4?style=flat-square&logo=python&logoColor=white)
+![pypdf](https://img.shields.io/badge/pypdf-PDF_Reader-E94B3C?style=flat-square)
+![FFmpeg](https://img.shields.io/badge/FFmpeg-Audio_Processing-007808?style=flat-square&logo=ffmpeg&logoColor=white)
+![Threading](https://img.shields.io/badge/Threading-UI_Async-2E75B6?style=flat-square&logo=python&logoColor=white)
+
+</div>
+
+---
+
+## 🚀 Como Executar
+
+<details>
+<summary>📦 Pré-requisitos do Sistema</summary>
+<br/>
+
 ```bash
-python gui.py
+# Ubuntu/Debian — Instale o FFmpeg (dependência de áudio)
+sudo apt update
+sudo apt install -y ffmpeg portaudio19-dev python3-pyaudio
+
+# macOS
+brew install ffmpeg portaudio
+
+# Windows
+# Baixe o FFmpeg: https://ffmpeg.org/download.html
+# Adicione ao PATH do sistema
+```
+
+</details>
+
+<details>
+<summary>⚙️ Instalação</summary>
+<br/>
+
+```bash
+# Clone o repositório
+git clone https://github.com/fassir/audioDescricao.git
+cd audioDescricao
+
+# Crie e ative o ambiente virtual
+python -m venv .venv
+source .venv/bin/activate   # Linux/Mac
+# .venv\Scripts\activate    # Windows
+
+# Instale as dependências Python
+pip install -r requirements.txt
+```
+
+</details>
+
+<details>
+<summary>🔑 Configurar Chave da API OpenAI</summary>
+<br/>
+
+```bash
+# Crie o arquivo de variáveis de ambiente
+cp .env.example .env
+
+# Edite o arquivo e insira sua chave OpenAI
+nano .env
+```
+
+```env
+# .env
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+> ⚠️ Nunca commite sua chave de API no repositório. O `.env` já está no `.gitignore`.
+
+</details>
+
+<details>
+<summary>▶️ Executar o Assistente</summary>
+<br/>
+
+```bash
+# Inicie o assistente de voz
+python main.py
+
+# A interface CustomTkinter abrirá automaticamente em modo escuro
+# Clique em "Iniciar" ou pressione o botão de microfone para começar
+```
+
+</details>
+
+---
+
+## ✨ Funcionalidades
+
+| Funcionalidade | Descrição | Modo |
+|---|---|---|
+| 🎤 **Reconhecimento de Voz** | Capta e transcreve sua fala com precisão via Whisper | Online |
+| 🧠 **Respostas Inteligentes** | ChatGPT responde perguntas, explica e conversa naturalmente | Online |
+| 📄 **Conversa com PDF** | Abre documentos PDF e responde perguntas sobre o conteúdo | Local |
+| 🔊 **Síntese de Voz (gTTS)** | Lê as respostas em voz alta com qualidade Google | Online |
+| ♿ **Audiodescrição da UI** | Descreve botões e elementos da interface (pyttsx3) | **Offline** |
+| 🌙 **Interface Dark Mode** | Interface moderna com CustomTkinter em tema escuro | Local |
+| ⚡ **Threading Assíncrono** | Interface nunca trava durante processamento de IA | Local |
+| 💬 **Histórico de Conversa** | Mantém contexto da conversa para respostas coerentes | Local |
+
+---
+
+## 🎨 Interface
+
+<details>
+<summary>Layout da Interface CustomTkinter</summary>
+<br/>
+
+```
+┌─────────────────────────────────────────────┐
+│  🎙️ audioDescricao                    [─][□][×] │
+├─────────────────────────────────────────────┤
+│                                             │
+│  ┌─────────────────────────────────────┐   │
+│  │  💬 Histórico da Conversa           │   │
+│  │                                     │   │
+│  │  Você: Olá, como funciona a IA?     │   │
+│  │  Bot: Ótima pergunta! A IA...       │   │
+│  │  Você: Pode ler meu PDF?            │   │
+│  │  Bot: Claro! Carregue o arquivo...  │   │
+│  │                                     │   │
+│  └─────────────────────────────────────┘   │
+│                                             │
+│  ┌──────────────────┐  ┌────────────────┐  │
+│  │  📁 Abrir PDF    │  │  🎤 Falar      │  │
+│  └──────────────────┘  └────────────────┘  │
+│                                             │
+│  Status: 🟢 Aguardando entrada de voz...    │
+└─────────────────────────────────────────────┘
+```
+
+</details>
+
+---
+
+## 📂 Estrutura de Arquivos
+
+```
+audioDescricao/
+├── 📄 main.py                  # Ponto de entrada — inicializa a UI e o assistente
+├── 📁 core/
+│   ├── assistant.py            # Lógica principal do assistente de voz
+│   ├── speech_recognition.py   # Integração Whisper para captura de voz
+│   ├── text_to_speech.py       # gTTS e pyttsx3 — síntese de voz
+│   ├── openai_client.py        # Integração ChatGPT / OpenAI API
+│   └── pdf_reader.py           # pypdf — extração e indexação de PDF
+├── 📁 ui/
+│   ├── app_window.py           # Janela principal CustomTkinter
+│   ├── components.py           # Widgets reutilizáveis
+│   └── theme.py                # Configuração do tema escuro
+├── 📁 utils/
+│   ├── audio_utils.py          # Processamento de áudio com FFmpeg
+│   └── context_manager.py      # Gerenciamento do histórico de conversa
+├── 📄 requirements.txt         # Dependências Python
+├── 📄 .env.example             # Template de variáveis de ambiente
+└── 📋 README.md                # Documentação do projeto
 ```
 
 ---
 
-## 🛠️ Como este Projeto foi Construído (Guia Educativo)
+## 📦 Dependências Principais
 
-Aqui explicamos **como** e **por que** adicionamos cada nova funcionalidade recente, de forma que qualquer pessoa possa entender a lógica por trás do código.
+```txt
+# requirements.txt
+openai>=1.0.0          # ChatGPT + Whisper API
+gtts>=2.3.0            # Google Text-to-Speech (online)
+pyttsx3>=2.90          # Text-to-Speech offline
+customtkinter>=5.2.0   # Interface gráfica dark mode
+pypdf>=3.0.0           # Leitura de arquivos PDF
+pyaudio>=0.2.13        # Captura de áudio do microfone
+python-dotenv>=1.0.0   # Variáveis de ambiente
+```
 
-### 1. A Interface Visual (`gui.py`)
-Inicialmente, o projeto rodava apenas em uma tela preta (terminal). Para torná-lo amigável:
-*   **O que usamos**: Uma biblioteca chamada `customtkinter`. Ela permite criar janelas bonitas com botões coloridos e modo escuro, parecidos com apps modernos de celular.
-*   **Como funciona**: Criamos uma "caixa" principal (`App`) e dentro dela colocamos "gavetas" (frames). Em uma gaveta fica o histórico da conversa, e na outra ficam os botões de Enviar e Gravar.
-*   **O desafio**: Se a IA demorar para responder, a janela travaria. Para resolver isso, usamos **Threading** (fios paralelos). É como contratar um ajudante: enquanto o ajudante vai buscar a resposta da IA, a janela continua livre para você mexer.
-
-### 2. Acessibilidade e Audiodescrição ♿
-Queríamos que deficientes visuais pudessem saber o que cada botão faz apenas passando o mouse por cima.
-*   **O problema**: O sistema de voz da IA (`gTTS`) depende da internet e é lento. Não serve para respostas rápidas de interface.
-*   **A solução**: Usamos uma biblioteca diferente chamada `pyttsx3`. Ela usa a voz robótica que já vem instalada no seu Windows/Linux. Ela é **instantânea** e **não precisa de internet**.
-*   **A mágica no código**: Usamos um "evento de hover" (pairar). No código, dissemos: *"Computador, quando o mouse entrar na área deste botão, use o pyttsx3 para falar 'Botão Gravar Áudio' imediatamente"*.
-
-### 3. Leitor de Livros e Documentos (PDF) 📚
-Adicionamos a capacidade de você "conversar" com um livro.
-*   **O que usamos**: Uma biblioteca chamada `pypdf`. Ela funciona como um "abridor de cartas", tirando o texto de dentro do arquivo PDF.
-*   **A lógica**:
-    1.  Você clica no botão "📂 Doc" e escolhe um arquivo.
-    2.  O sistema lê todo o texto do livro (extração).
-    3.  **O segredo**: O sistema pega esse texto e envia para o ChatGPT "escondido" com uma instrução especial: *"Aqui está o conteúdo de um documento. Use-o para responder às perguntas do usuário a partir de agora"*.
-    4.  Assim, quando você pergunta "O que o personagem fez?", a IA consulta o texto que acabamos de enviar para ela.
+> ⚠️ **Dependência de sistema**: FFmpeg deve estar instalado e disponível no PATH para o processamento de áudio funcionar corretamente.
 
 ---
 
-## 📂 Estrutura dos Arquivos (Para Desenvolvedores)
+## ♿ Acessibilidade
 
-*   `gui.py`: **Coração visual**. Contém a janela, os botões e a integração da acessibilidade.
-*   `bot.py`: **Cérebro**. Controla a conversa com a OpenAI, a audição (Whisper) e a fala (gTTS).
-*   `document_utils.py`: **Bibliotecário**. Funções específicas apenas para abrir arquivos e limpar o texto.
-*   `audio_utils.py`: **Técnico de Som**. Grava o microfone e toca os arquivos mp3.
-*   `main.py`: Versão antiga (apenas texto/terminal), mantida para testes simples.
+Este projeto foi desenvolvido com acessibilidade como prioridade:
+
+- **pyttsx3** funciona **completamente offline** — audiodescreve a interface instantaneamente, sem latência de rede
+- **Modo escuro** reduz fadiga visual e aumenta contraste
+- **Navegação por voz** permite usar o assistente sem tocar no mouse ou teclado
+- **Leitura de PDFs** permite que deficientes visuais acessem documentos através de conversação natural
+
+---
+
+## 👤 Autor
+
+<div align="center">
+
+**Fabio Piassi**
+
+[![GitHub](https://img.shields.io/badge/GitHub-fassir-1F9BD4?style=for-the-badge&logo=github&logoColor=white)](https://github.com/fassir)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Fabio_Piassi-2E75B6?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/fabiopiassi)
+
+*Apaixonado por tecnologia, dados e soluções inteligentes.*
+*Formado em Física | Especialista em Ciência de Dados, DevSecOps e IA*
+*Volta Redonda — RJ 🇧🇷*
+
+</div>
+
+---
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:16265F,50:2E75B6,100:1F9BD4&height=120&section=footer&fontSize=16&fontColor=ffffff&animation=fadeIn" />
+
+*"Não é sobre ter ideias. É sobre fazer com que elas aconteçam."*
+
+</div>
